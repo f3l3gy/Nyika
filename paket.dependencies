@@ -1,0 +1,27 @@
+source https://api.nuget.org/v3/index.json
+
+nuget LightBDD.NUnit3
+nuget Microsoft.NET.Test.Sdk
+nuget xunit
+nuget xunit.runner.visualstudio
+nuget Microsoft.AspNetCore
+nuget Microsoft.AspNetCore.Owin
+nuget Mono.Posix
+
+github NancyFX/Nancy
+
+group tools
+    source https://api.nuget.org/v3/index.json
+    nuget Cake
+
+group build/setup
+    source https://api.nuget.org/v3/index.json
+    nuget Cake.Figlet
+
+group addins
+    source https://api.nuget.org/v3/index.json
+    nuget Cake.Paket
+
+group modules
+    source https://api.nuget.org/v3/index.json
+    nuget Cake.Paket.Module

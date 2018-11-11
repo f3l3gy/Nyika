@@ -28,6 +28,8 @@ Thumbs.db
 Gemfile.lock
 .vs/
 packages/
+paket-files/
+.paket/
 project.lock.json
 TestAssembly.dll
 [Tt]ools/Cake.*
