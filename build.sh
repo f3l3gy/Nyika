@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+SCRIPT_DIR=$PWD
+
 # Define default arguments.
 SCRIPT="build.cake"
 TARGET="Default"
@@ -46,7 +48,7 @@ if [ ! -d "$SCRIPT_DIR/.dotnet" ]; then
   mkdir "$SCRIPT_DIR/.dotnet"
 fi
 curl -Lsfo "$SCRIPT_DIR/.dotnet/dotnet-install.sh" $DOTNET_INSTRALL_URI
-sudo bash "$SCRIPT_DIR/.dotnet/dotnet-install.sh" -c current --version $DOTNET_VERSION --install-dir .dotnet --no-path
+bash "$SCRIPT_DIR/.dotnet/dotnet-install.sh" -c current --version $DOTNET_VERSION --install-dir .dotnet --no-path
 export PATH="$SCRIPT_DIR/.dotnet":$PATH
 export DOTNET_SKIP_FIRST_TIME_EXPERIENCE=1
 export DOTNET_CLI_TELEMETRY_OPTOUT=1
@@ -72,12 +74,12 @@ function twoAbsolutePath {
 # INSTALL PAKET
 ###########################################################################
 
-PAKET_DIR=$(twoAbsolutePath $PAKET)
-
 # Make sure the .paket directory exits.
-if [ ! -d "$PAKET_DIR" ]; then
-    mkdir "$PAKET_DIR"
+if [ ! -d $PAKET ]; then
+    mkdir $PAKET
 fi
+
+PAKET_DIR=$(twoAbsolutePath $PAKET)
 
 # Set paket directory enviornment variable.
 export PAKET=$PAKET_DIR
@@ -87,12 +89,12 @@ PAKET_EXE=$PAKET_DIR/paket.exe
 if [ ! -f "$PAKET_EXE" ]; then
 
     # If paket.bootstrapper.exe exits then run it.
-    PAKET_BOOTSTRAPPER_FILE_NAME = "paket.bootstrapper.exe"
+    PAKET_BOOTSTRAPPER_FILE_NAME="paket.bootstrapper.exe"
     PAKET_BOOTSTRAPPER_EXE=$PAKET_DIR/$PAKET_BOOTSTRAPPER_FILE_NAME
     if [ ! -f "$PAKET_BOOTSTRAPPER_EXE" ]; then
         paket_repo="fsprojects/Paket"
-        paket_latest=get_latest_release($paket_repo)
-        curl -Lsfo "https://github.com/$paket_repo/releases/download/$paket_latest/$PAKET_BOOTSTRAPPER_FILE_NAME" $PAKET_BOOTSTRAPPER_EXE
+        paket_latest=$( get_latest_release  $paket_repo )
+        curl -Lsfo $PAKET_BOOTSTRAPPER_EXE "https://github.com/$paket_repo/releases/download/$paket_latest/$PAKET_BOOTSTRAPPER_FILE_NAME"
         if [ ! -f "$PAKET_BOOTSTRAPPER_EXE" ]; then
             echo "Could not find paket.bootstrapper.exe at '$PAKET_BOOTSTRAPPER_EXE'."
             exit 1
@@ -149,3 +151,4 @@ if $SHOW_VERSION; then
 else
     exec mono "$CAKE_EXE" $SCRIPT -verbosity=$VERBOSITY -configuration=$CONFIGURATION -target=$TARGET $DRYRUN "${SCRIPT_ARGUMENTS[@]}"
 fi
+
