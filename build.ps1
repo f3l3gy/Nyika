@@ -131,7 +131,7 @@ if (!(Test-Path $PAKET_EXE)) {
     $PAKET_BOOTSTRAPPER_EXE = Join-Path $PaketDir $PAKET_BOOTSTRAPPER_FILE_NAME
 
     if (!(Test-Path $PAKET_BOOTSTRAPPER_EXE)) {
-        
+
         $releases = "https://api.github.com/repos/$PaketRepo/releases";
 
         [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
@@ -216,8 +216,6 @@ Write-Verbose -Message "Found Cake.exe in PATH at $CAKE_EXE"
 
 # Start Cake
 Write-Host "Running build script..."
-
-Get-ChildItem env:
 
 Invoke-Expression "& `"$CAKE_EXE`" `"$Script`" -target=`"$Target`" -configuration=`"$Configuration`" -verbosity=`"$Verbosity`" $UseMono $UseDryRun $UseExperimental $ScriptArgs"
 exit $LASTEXITCODE
