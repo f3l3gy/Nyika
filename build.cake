@@ -5,7 +5,7 @@ var target = Argument("target", "Default");
 Task("Default")
   .Does(() =>
 {
-  Information(Figlet("Nyka Build System"));
+  Information(Figlet("Nyika Build System"));
 });
 
 RunTarget(target);

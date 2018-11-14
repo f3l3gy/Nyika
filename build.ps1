@@ -135,11 +135,13 @@ if (!(Test-Path $PAKET_EXE)) {
         $releases = "https://api.github.com/repos/$PaketRepo/releases";
 
         [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+        $progressPreference = 'silentlyContinue'
         $tag = (Invoke-WebRequest -Uri $releases -UseBasicParsing | ConvertFrom-Json)[0].tag_name
 
         $download = "https://github.com/$PaketRepo/releases/download/$tag/$PAKET_BOOTSTRAPPER_FILE_NAME";
 
         [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+        $progressPreference = 'silentlyContinue'
         Invoke-WebRequest $download -Out $PAKET_BOOTSTRAPPER_EXE
 
         if (!(Test-Path $PAKET_BOOTSTRAPPER_EXE))
